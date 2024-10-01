@@ -61,7 +61,9 @@ def validate_itr(glctx, target, geometry, opt_material, lgt, FLAGS, bbox=None, r
             result_dict['ref'] = result_dict['ref'][bbox[1]:bbox[3], bbox[0]:bbox[2]]
             result_dict['opt'] = result_dict['opt'][bbox[1]:bbox[3], bbox[0]:bbox[2]]
         result_image = torch.cat([result_dict['ref'], result_dict['opt']], axis=1)
-        result_image = result_dict['opt']
+
+        # Uncomment when you want to try on differet animations
+        # result_image = result_dict['opt']
 
         display = [
                 {"bsdf" : "normal"} # , {"normal": True}
