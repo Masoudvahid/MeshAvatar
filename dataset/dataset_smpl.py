@@ -110,6 +110,7 @@ class DatasetSMPL(Dataset):
 
         self.data_dir = data_dir
         self.betas, self.poses, self.trans = load_smplx_params(os.path.join(data_dir, 'smpl_params.npz'), body_only=False)
+        # self.betas, self.poses, self.trans = load_smplx_params(os.path.join(data_dir, 'athlete_rec12_converted_thuman4.npz'), body_only=False)
         self.frame_id_offset = get_frame_id_offset(self.data_dir)
         self.rots = None
         self.cam_ssn_list = get_cam_ssns(self.data_dir)
@@ -237,6 +238,8 @@ class DatasetSMPL(Dataset):
         """Follow the same preprocessing as NeuralBody"""
 
         msk = cv2.imread(msk_fpath, cv2.IMREAD_UNCHANGED)
+        if msk is None:
+            return None
         if len(msk.shape) > 2:
             msk = msk[:, :, 0]
 
@@ -312,11 +315,11 @@ class DatasetSMPL(Dataset):
         iter_res, iter_spp = self.FLAGS.display_res, self.FLAGS.spp
 
         img_fpath = os.path.join(self.data_dir, '%s/%08d.jpg' % (self.cam_ssn_list[cam_id], frame_id))
-        msk_fpath = os.path.join(self.data_dir, self.cam_ssn_list[cam_id], 'mask-rvm', '%08d.jpg' % frame_id)
+        msk_fpath = os.path.join(self.data_dir, self.cam_ssn_list[cam_id], 'mask-rvm', '%08d.png' % frame_id)
         if not os.path.exists(msk_fpath):
-            msk_fpath = os.path.join(self.data_dir, self.cam_ssn_list[cam_id], 'mask/pha', '%08d.jpg' % frame_id)
+            msk_fpath = os.path.join(self.data_dir, self.cam_ssn_list[cam_id], 'mask/pha', '%08d.png' % frame_id)
         img, msk = cv2.imread(img_fpath), self.get_mask(msk_fpath)
-
+        
         img = np.float32(img[:, :, ::-1]) / 255.
         
         if abs(self.ratio-1) > 1e-6:
@@ -353,6 +356,7 @@ class DatasetSMPL(Dataset):
 
     def __getitem__(self, itr):
         return self._parse_data(itr % self.n_images)
+        # return self._parse_data((itr - 1) % self.n_images)
 
 
 class TestDatasetSMPL(DatasetSMPL):

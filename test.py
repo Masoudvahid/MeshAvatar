@@ -62,6 +62,9 @@ def validate_itr(glctx, target, geometry, opt_material, lgt, FLAGS, bbox=None, r
             result_dict['opt'] = result_dict['opt'][bbox[1]:bbox[3], bbox[0]:bbox[2]]
         result_image = torch.cat([result_dict['ref'], result_dict['opt']], axis=1)
 
+        # Uncomment when you want to try on differet animations
+        # result_image = result_dict['opt']
+
         display = [
                 {"bsdf" : "normal"} # , {"normal": True}
             ]
@@ -223,21 +226,22 @@ if __name__ == "__main__":
     save_dir = os.path.join(FLAGS.out_dir, 'visualizations')
     os.makedirs(save_dir, exist_ok=True)
 
-    start_frame, end_frame, freq = 500, 1000, 1
+    start_frame, end_frame, freq = 0, 900, 1
     test = True
     export_img = True
     export_per_img = False
     export_video = True
     export_mesh = False
     relighting = True
-    cam_ids = [2]
+    cam_ids = [7]#[7, 4]
 
     fps = 25 // freq
     # fps = 15
 
     if relighting is True:
         relight = [{"relight": light.load_env('data/irrmaps/portland_landing_pad_2k.hdr', usage=light_usage)},
-                   {"relight": light.load_env('data/irrmaps/eilenriede_park_2k.hdr', usage=light_usage)}]
+                #    {"relight": light.load_env('data/irrmaps/eilenriede_park_2k.hdr', usage=light_usage)}
+                   ]
     else:
         relight = None
 
@@ -254,7 +258,7 @@ if __name__ == "__main__":
         fid = 0
         target = dataset.collate([dataset[fid * len(dataset.cam_ids_to_use) + cid]])
         target = train_utils.prepare_batch(target, FLAGS.background)
-        bbox = extract_bbox(target['img'][0, ..., -1], hw=(900, 500)) if export_per_img is False else None
+        bbox = extract_bbox(target['img'][0, ..., -1], hw=(900*2, 7000)) if export_per_img is False else None
         print("cam %d: " % cid, bbox)
         # bbox = None
 

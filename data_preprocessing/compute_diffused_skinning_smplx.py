@@ -142,8 +142,8 @@ if __name__ == '__main__':
         go_on = input(f'\n[WILL EXECUTE with os.system] {cmd}\nContinue? (y/n)')
     else:
         go_on = 'y'
-    if go_on == 'y':
-        os.system(cmd)
+    # if go_on == 'y':
+    os.system(cmd)
 
     ### NOTE reorganize data
     data = np.loadtxt(join(data_templates_path, subject, subject + "_cpose_lbs_grads.txt"))
@@ -174,7 +174,7 @@ if __name__ == '__main__':
 
         ### NOTE solve for the diffused skinning fields
         for jid in range(num_joints):
-            cmd = '/home/masoud1/Documents/Avatar/PoissonRecon/Bin/Linux/PointInterpolant ' + \
+            cmd = '../PoissonRecon/Bin/Linux/PointInterpolant ' + \
                 f'--inValues {join(tmp_folder_constraints, f"cano_data_lbs_val_{jid:02d}.xyz")} ' + \
                 f'--inGradients {join(tmp_folder_constraints, f"cano_data_lbs_grad_{jid:02d}.xyz")} ' + \
                 f'--gradientWeight 0.05 --dim 3 --verbose ' + \
