@@ -523,6 +523,9 @@ def checkerboard(res, checker_size) -> np.ndarray:
 # 3D assets save/load helper.
 #----------------------------------------------------------------------------
 
+import os
+import sys
+print(sys.executable)
 import open3d as o3d
 
 def save_triangle_mesh(fn, vertices, faces, vertex_colors=None):

@@ -6,7 +6,7 @@ from dataset.dataset_smpl import DatasetSMPL
 from dataset.dataset_synthetic import DatasetSynthetic
 import numpy as np
 
-smpl_dir = '/home/masoud1/Documents/Avatar/meshavatar/smpl_models/'
+smpl_dir = 'smpl_models/'
 FLAGS = train_utils.get_flags()
 dataset_name = FLAGS.dataset_name
 

@@ -33,12 +33,15 @@ lines = model['kintree_table'].T
 
 with open(os.path.join(smpl_dir, 'model_transfer/smplx_to_smpl.pkl'), 'rb') as f:
     transfer = pickle.load(f, encoding='latin1')
+    print('transfer loaded!')
 
 with open(os.path.join(smpl_dir, 'smpl/SMPL_NEUTRAL.pkl'), 'rb') as f:
     smpl_model = pickle.load(f, encoding='latin1')
+    print('smpl model loaded!')
 
 mesh = o3d.geometry.TriangleMesh()
 mesh.vertices = o3d.utility.Vector3dVector(transfer['matrix'] @ smplx_verts)
 mesh.triangles = o3d.utility.Vector3iVector(smpl_model['f'].astype(np.int32))
 o3d.io.write_triangle_mesh("data/data_templates/%s/%s_minimal_tpose.ply" % 
                             (dataset_name, dataset_name), mesh)
+print('mesh saved!')

@@ -7,7 +7,7 @@ import time
 from scipy.spatial import cKDTree as KDTree
 import sys
 
-with open('../smpl_models/smplx_10/SMPLX_NEUTRAL.pkl', 'rb') as f:
+with open('smpl_models/smplx_10/SMPLX_NEUTRAL.pkl', 'rb') as f:
     model = pickle.load(f, encoding='latin1')
 
 # import ipdb; ipdb.set_trace()
